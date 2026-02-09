@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIM-ple | Don't Be a Ghost 👻</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-yellow: #fecc4c; 
+            --bg-purple: #a8589e;
+            --text-purple: #5e2c56;
+            --accent-red: #e64c3c;
+            --off-white: #f4f1ea;
+            --black: #1a1a1a;
+            
+            --border-thick: 4px solid var(--black);
+            --shadow-hard: 6px 6px 0px var(--black);
+        }
+
+        body {
+            background-color: var(--bg-yellow);
+            color: var(--text-purple);
+            font-family: 'Space Mono', monospace;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Important for the flying plane! */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Passion One', cursive;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin: 0;
+        }
+
+        /* NAVIGATION */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: var(--border-thick);
+            background: var(--off-white);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo { font-size: 2rem; transform: rotate(-2deg); }
+
+        .nav-btn {
+            background: var(--black);
+            color: var(--off-white);
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { transform: scale(1.1) rotate(2deg); }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh; /* Made slightly taller */
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(4rem, 15vw, 10rem);
+            color: var(--bg-purple);
+            text-shadow: 4px 4px 0px var(--off-white);
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            background: var(--off-white);
+            padding: 10px 20px;
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            transform: rotate(-1deg);
+            margin-top: 20px;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        /* --- THE STICKER CHAOS --- */
+        .sticker { position: absolute; z-index: 1; pointer-events: none; }
+
+        /* Simmy (The Hero) */
+        .simmy-hero {
+            bottom: 10%; right: 5%; 
+            width: 320px; 
+            animation: bounce 3s infinite ease-in-out;
+            z-index: 3;
+        }
+
+        /* The "WAIT!" Badge */
+        .sticker-wait { 
+            top: 15%; left: 5%; 
+            width: 120px; height: 120px; 
+            background: var(--off-white); 
+            border: var(--border-thick); 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            transform: rotate(-10deg);
+            font-weight: 900; font-size: 2rem;
+        }
+
+        /* The Phone (Ringing) */
+        .sticker-phone {
+            top: 20%; right: 10%;
+            width: 150px;
+            animation: shake 0.5s infinite;
+        }
+
+        /* The Plane (Flying Across) */
+        .sticker-plane {
+            top: 5%; left: -200px;
+            width: 180px;
+            opacity: 0.8;
+            animation: flyOver 15s linear infinite;
+        }
+
+        /* The Wifi (Pulsing in Pricing) */
+        .sticker-wifi {
+            position: absolute;
+            top: -40px; right: -20px;
+            width: 100px;
+            transform: rotate(15deg);
+            z-index: 5;
+        }
+
+        /* ANIMATIONS */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        @keyframes flyOver {
+            0% { transform: translateX(0) translateY(0) rotate(5deg); }
+            100% { transform: translateX(120vw) translateY(50px) rotate(5deg); }
+        }
+
+        /* PRICING SECTION */
+        .pricing-section {
+            background: var(--bg-purple);
+            padding: 80px 20px;
+            border-top: var(--border-thick);
+            border-bottom: var(--border-thick);
+        }
+
+        .section-header {
+            text-align: center;
+            color: var(--bg-yellow);
+            font-size: 4rem;
+            margin-bottom: 60px;
+            text-shadow: 4px 4px 0px var(--black);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--off-white);
+            border: var(--border-thick);
+            padding: 30px;
+            position: relative;
+            box-shadow: var(--shadow-hard);
+            transition: transform 0.2s;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .card:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0px var(--black); }
+
+        .badge {
+            background: var(--accent-red);
+            color: var(--off-white);
+            padding: 10px 20px;
+            position: absolute;
+            top: -20px;
+            transform: rotate(-3deg);
+            border: var(--border-thick);
+            font-weight: bold; font-size: 1.2rem;
+            z-index: 6;
+        }
+
+        .gigs { font-size: 5rem; font-family: 'Passion One'; color: var(--black); margin: 20px 0; }
+        .details { list-style: none; padding: 0; text-align: center; font-size: 1.2rem; margin-bottom: 30px; }
+        .details li { margin-bottom: 10px; }
+
+        .buy-btn {
+            background: var(--bg-yellow);
+            color: var(--black);
+            font-size: 1.5rem; font-family: 'Passion One';
+            padding: 15px 40px; text-decoration: none;
+            border: var(--border-thick); box-shadow: 4px 4px 0px var(--black);
+            transition: all 0.1s;
+        }
+        .buy-btn:hover { background: var(--white); box-shadow: 2px 2px 0px var(--black); transform: translate(2px, 2px); }
+
+        /* MARQUEE */
+        .marquee-container {
+            background: var(--black); color: var(--off-white);
+            padding: 20px 0; overflow: hidden; white-space: nowrap;
+            border-bottom: var(--border-thick);
+        }
+        .marquee-content {
+            display: inline-block; animation: marquee 15s linear infinite;
+            font-size: 2rem; font-family: 'Passion One';
+        }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* FOOTER */
+        footer { background: var(--accent-red); padding: 60px 20px; text-align: center; color: var(--off-white); font-size: 1.2rem; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 4rem; }
+            .section-header { font-size: 3rem; }
+            /* Hide the plane on mobile so it doesn't block text */
+            .sticker-plane { display: none; } 
+            .simmy-hero { width: 200px; bottom: 5%; right: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">SIM-PLE 📶</div>
+        <a href="#plans" class="nav-btn">GET DATA</a>
+    </nav>
+
+    <section class="hero">
+        <img src="plane.png" class="sticker sticker-plane" alt="Flying Plane">
+
+        <img src="phone.png" class="sticker sticker-phone" alt="Ringing Phone">
+
+        <div class="sticker sticker-wait">WAIT!</div>
+
+        <img src="sim-mascot.png" alt="Running SIM Card" class="sticker simmy-hero">
+
+        <h1>DON'T BE <br> A GHOST.</h1>
+        <p>Israel's Smoothest eSIM. <br> No Plastic. No Lines. No BS.</p>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            SCAN QR • GET ONLINE • POST STORIES • WATCH TIKTOK • SCAN QR • GET ONLINE • POST STORIES • WATCH TIKTOK •
+        </div>
+    </div>
+
+    <section class="pricing-section" id="plans">
+        <h2 class="section-header">PICK YOUR POISON</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <h3>The Weekender</h3>
+                <div class="gigs">3GB</div>
+                <ul class="details">
+                    <li>7 Days</li>
+                    <li>Maps & WhatsApp</li>
+                    <li>Instant Delivery</li>
+                </ul>
+                <a href="#" class="buy-btn">30₪ GRAB IT</a>
+            </div>
+
+            <div class="card">
+                <img src="wifi.png" class="sticker sticker-wifi" alt="Wifi Signal">
+                
+                <div class="badge">MOST DOPE</div>
+                <h3>The Explorer</h3>
+                <div class="gigs">10GB</div>
+                <ul class="details">
+                    <li>14 Days</li>
+                    <li>Social Media Heavy</li>
+                    <li>Instant Delivery</li>
+                </ul>
+                <a href="#" class="buy-btn">55₪ GRAB IT</a>
+            </div>
+
+            <div class="card">
+                <h3>The Local</h3>
+                <div class="gigs">20GB</div>
+                <ul class="details">
+                    <li>30 Days</li>
+                    <li>Remote Work Ready</li>
+                    <li>Instant Delivery</li>
+                </ul>
+                <a href="#" class="buy-btn">90₪ GRAB IT</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>SIM-PLE.CO.IL • BUILT FOR THE BOLD</p>
+        <p style="font-size: 0.8rem; margin-top: 20px;">Need help? Support@sim-ple.co.il</p>
+    </footer>
+
+</body>
+</html>
